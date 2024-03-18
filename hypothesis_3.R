@@ -1,1 +1,7 @@
-#This is just testing code - changes 123
+library(readr) 
+
+#read the dataset
+accident_data <- read_csv("clean_road_accident_data.csv")
+
+
+
