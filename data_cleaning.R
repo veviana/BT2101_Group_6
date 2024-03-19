@@ -48,5 +48,18 @@ dataset$New_Driver_Age_Group <- as.factor(ifelse(dataset$Driver_Age_Group %in% c
 # Create dummy variable for Light_Conditions (dark lighting = 1, bright lighting = 0)
 dataset$New_Light_Conditions <- as.factor(ifelse(dataset$Light_Conditions %in% c("Dusk", "Night"), 1, 0))
 
+
+# Create dummy variable for Vehicle_Type (large vehicle = 1, small vehicle = 0)
+dataset$New_Vehicle_Type <- as.factor(ifelse(dataset$Vehicle_Type %in% c("Truck", "Car"), 1, 0))
+
+
+
+
+
+
+
+
+
+
 # Save new dataset
 write.csv(dataset, "clean_road_accident_data.csv", row.names = FALSE)
