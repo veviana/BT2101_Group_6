@@ -55,6 +55,12 @@ median_beds <- median(airbnb$beds, na.rm = TRUE)
 airbnb$beds[is.na(airbnb$beds)] <- median_beds
 
 
+#review score location: impute with the median  
+median_location_score <- median(airbnb$review_scores_location, na.rm = TRUE)
+airbnb$review_scores_location[is.na(airbnb$review_scores_location)] <- median_location_score
+
+
+
 
 
 
@@ -73,6 +79,10 @@ airbnb$price <- log(airbnb$price)
 
 # minimum_night 
 airbnb$minimum_nights <- log(airbnb$minimum_nights)
+
+
+ 
+
 
 
 ################## CREATING DUMMY VARIABLES ###################
@@ -104,6 +114,6 @@ airbnb$neighbourhood_cleansed <- factor(airbnb$neighbourhood_cleansed)
 
 
 # Save new dataset
-write.csv(airbnb, "cleandataset.csv", row.names = FALSE)
+#write.csv(airbnb, "cleandataset.csv", row.names = FALSE)
 
  

@@ -1,6 +1,8 @@
 library(readr)
 library(corrplot)
 library(ggplot2)
+library(treemap)
+library(car)
  
 # Read the dataset
 airbnb <- read_csv("airbnb.csv")
@@ -20,7 +22,9 @@ ggplot(airbnb, aes(x = host_days_data)) +
   labs(title = "Density Plot for Host Days",
        x = "Host Days",
        y = "Density") +
-  theme_minimal()
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+
 #Conclusion: skewness of host_days is still acceptable
 
 
@@ -31,7 +35,8 @@ ggplot(airbnb, aes(x = host_listings_count_data)) +
   labs(title = "Density Plot for host listings count",
        x = "Host Listings Count",
        y = "Density") +
-  theme_minimal()
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
 #Conclusion: host_listings_count is skewed to the left
 
  
@@ -42,7 +47,8 @@ ggplot(airbnb, aes(x = accommodates_data)) +
   labs(title = "Density Plot for accommodates",
        x = "Accommodates",
        y = "Density") +
-  theme_minimal()
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
 #Conclusion: skewness of accommodates is still acceptable
 
 
@@ -52,7 +58,8 @@ ggplot(airbnb, aes(x = bathrooms_data)) +
   labs(title = "Density Plot for bathrooms",
        x = "Bathrooms",
        y = "Density") +
-  theme_minimal()
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
 #Conclusion: skewness of bathrooms is still acceptable
 
 
@@ -62,7 +69,8 @@ ggplot(airbnb, aes(x = bedrooms_data)) +
   labs(title = "Density Plot for bedrooms",
        x = "Bedrooms",
        y = "Density") +
-  theme_minimal()
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
 #Conclusion: skewness of bedrooms is still acceptabl
 
 
@@ -73,7 +81,8 @@ ggplot(airbnb, aes(x = beds_data)) +
   labs(title = "Density Plot for beds",
        x = "Beds",
        y = "Density") +
-  theme_minimal()
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
 #Conclusion: skewness of beds is still acceptable
 
 
@@ -85,7 +94,8 @@ ggplot(airbnb, aes(x = price_data)) +
   labs(title = "Density Plot for price",
        x = "Price",
        y = "Density") +
-  theme_minimal()
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
 #Conclusion: price is skewed to the left
 
 
@@ -97,7 +107,8 @@ ggplot(airbnb, aes(x = guests_included)) +
   labs(title = "Density Plot for guests_included",
        x = "guests_included",
        y = "Density") +
-  theme_minimal()
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
 #Conclusion: skewness of guests_included is still acceptable
 
 
@@ -109,7 +120,8 @@ ggplot(airbnb, aes(x = extra_people)) +
   labs(title = "Density Plot for extra_people",
        x = "extra_people",
        y = "Density") +
-  theme_minimal()
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
 #Conclusion: skewness of extra_people is still acceptable
 
 
@@ -119,7 +131,8 @@ ggplot(airbnb, aes(x = minimum_nights)) +
   labs(title = "Density Plot for minimum_nights",
        x = "minimum_nights",
        y = "Density") +
-  theme_minimal()
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
 #Conclusion: minimum_nights is heavily skewed to the left
 
 
@@ -131,11 +144,94 @@ ggplot(airbnb, aes(x = reviews_per_month)) +
   labs(title = "Density Plot for reviews_per_month",
        x = "reviews_per_month",
        y = "Density") +
-  theme_minimal()
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
 #Conclusion: skewness of reviews_per_month is still acceptable
 
 
 
+host_response_time_data <- airbnb$host_response_time
+ggplot(airbnb, aes(x = host_response_time)) +
+  geom_density(fill = "blue", alpha = 0.5) + 
+  labs(title = "Density Plot for host_response_time",
+       x = "host_response_time",
+       y = "Density") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+#Conclusion: skewness of host_response_time is still acceptable
+
+ 
+
+
+
+
+############## CHECK DISTRIBUTION OF CATEGORICAL VARIABLES ############## 
+
+#Distribution of host_response_time
+ggplot(airbnb, aes(x = host_response_time, fill = host_response_time)) +
+  geom_bar(color = "black") +  # Change outline color
+  scale_fill_brewer(palette = "Paired") + 
+  labs(title = "Response time of the host",
+       x = NULL,
+       y = NULL) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  guides(fill = FALSE) 
+
+
+
+
+#Distribution of room_type
+airbnb$room_type <- factor(airbnb$room_type, levels = names(sort(table(airbnb$room_type))))
+
+ggplot(airbnb, aes(x = room_type, fill = room_type)) +
+  geom_bar(color = "black") +   
+  scale_fill_brewer(palette = "Paired") + 
+  labs(title = "Distribution of room type",
+       x = NULL,
+       y = NULL) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  guides(fill = FALSE) 
+
+
+
+#Distribution of cancellation_policy
+airbnb$cancellation_policy <- factor(airbnb$cancellation_policy, 
+                                     levels = names(sort(table(airbnb$cancellation_policy))))
+ 
+ggplot(airbnb, aes(x = cancellation_policy, fill = cancellation_policy)) +
+  geom_bar(color = "black") +  
+  scale_fill_brewer(palette = "Paired") + 
+  labs(title = "Distribution of cancellation policy",
+       x = NULL,
+       y = NULL) +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  guides(fill = FALSE)  
+
+
+############## CHECK FOR CORRELATION ##############  
+ 
+numeric_variables <- airbnb[sapply(airbnb, is.numeric)]
+ 
+correlation_matrix <- cor(numeric_variables, use = "pairwise.complete.obs")
+corrplot(correlation_matrix, method = "number", type = "lower", tl.col = "black", tl.srt = 45, tl.cex = 0.7, addCoef.col = "black")
+ 
+
+
+
+
+
+
+
+################ CALCULATE VIF TO CHECK FOR MULTICOLLINEARITY 
+data <- airbnb[c("review_scores_accuracy", "review_scores_cleanliness", "review_scores_value", 
+                 "review_scores_communication", "review_scores_checkin", "review_scores_location", 
+                 "review_scores_rating")]
+# Calculate VIF for each variable
+vif_values <- vif(lm(review_scores_rating ~ ., data = data))
+print(vif_values)
 
 
 
