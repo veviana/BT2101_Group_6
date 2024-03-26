@@ -7,7 +7,6 @@ model1 <- lm(review_scores_rating ~ cancellation_policy, data = airbnb)
 summary(model1)
 
 
-
 ######################### TESTING GM ASSUMPTIONS #####################
 
 # Checks for linearity
@@ -36,16 +35,11 @@ ggplot(airbnb, aes(cancellation_policy, sqrt(abs(residuals)))) +
 
 
 
-
-
-
-
-
-
-
-
-
-#try_model <- lm(review_scores_rating ~ cancellation_policy + host_acceptance_rate + host_is_superhost + host_identity_verified, data = airbnb)
+#Improved model by adding controls  
+improved_model <- lm(review_scores_rating ~ cancellation_policy + instant_bookable + host_is_superhost + minimum_nights + room_type, data = airbnb)
 
 # Print model summary
-#summary(try_model)
+
+summary(improved_model)
+
+
