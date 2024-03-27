@@ -15,6 +15,9 @@ abline(model1, col = "red")
 plot(model1$fitted.values, resid(model1), main = "Homoscedasticity Check: Fitted vs Residuals", xlab = "Fitted values", ylab = "Residuals")
 abline(h = 0, col = "red") 
 
+test_result <- bptest(model1)
+print(test_result)
+
 #Normality Residual 
 qqnorm(resid(model1))
 qqline(resid(model1), col = "red")
@@ -29,7 +32,7 @@ print(dwtest_result)
 
 # Adding controls 
 airbnb$neighbourhood_cleansed <- as.factor(airbnb$neighbourhood_cleansed)
-model2 <- lm(review_scores_rating ~ price + neighbourhood_cleansed + host_is_superhost + minimum_nights + room_type, data = airbnb)
+model2 <- lm(review_scores_rating ~ price + neighbourhood_cleansed + host_is_superhost + minimum_nights, data = airbnb)
 
 # Print the summary of the model
 summary(model2)
