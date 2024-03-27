@@ -1,25 +1,30 @@
 library(lmtest)
+library(ggplot2)
 
-# Create a linear regression model with host_response_time as the independent variable
-model3 <- lm(review_scores_rating ~ host_response_time, data = cleandataset)
+# Create a linear regression model with host_listings_count as the independent variable
+model3 <- lm(review_scores_rating ~ host_listings_count, data = airbnb)
 
 # Print model summary
 summary(model3)
 
 # Check for homoscedasticity with the Breusch-Pagan test
-
 bptest(model3)
 
-boxplot(review_scores_rating ~ host_response_time, data = cleandataset)
+model3log <- lm(log(review_scores_rating) ~ host_listings_count, data = airbnb)
+summary(model3log)
 
-# Plotting the residuals for visual inspection
-plot(review_scores_rating ~ host_response_time, data = airbnb)
-lines(lowess(airbnb$review_scores_rating, airbnb$host_response_time), col = "blue")
+# Homoscedasticity
+test_result <- bptest(model3log)
+print(test_result)
 
-residuals <- residuals(model3)
-ggplot(airbnb, aes(host_response_time, sqrt(abs(residuals)))) + 
-  geom_point() +
-  stat_summary(geom = "line", fun = mean, color = "blue", size = 1.5) + 
-  labs(x = "host_response_time", y = "Square Root of Residuals", 
-       title = "Residual Variance vs host_response_time") +
-  theme(plot.title = element_text(hjust = 0.5))
+# Check for linearity 
+#plot(airbnb$host_listings_count, airbnb$review_scores_rating, main = "Listing count vs Review Scores", xlab = "Host Listing Count", ylab = "Review Scores Rating")
+#abline(model3, col = "red")
+
+# Homoscedasticity
+#plot(model3log$fitted.values, resid(model3log), main = "Homoscedasticity Check: Fitted vs Residuals", xlab = "Fitted values", ylab = "Residuals")
+#abline(h = 0, col = "red") 
+
+# after adding controls
+model3_new<- lm(log(review_scores_rating) ~ host_listings_count + host_response_rate+ host_response_time+ host_acceptance_rate+ host_is_superhost, data = airbnb)
+summary(model3_new)
