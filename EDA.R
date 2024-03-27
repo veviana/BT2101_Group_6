@@ -102,7 +102,7 @@ ggplot(airbnb, aes(x = price_data)) +
 
 
 guests_included_data <- airbnb$guests_included
-ggplot(airbnb, aes(x = guests_included)) +
+ggplot(airbnb, aes(x = guests_included_data)) +
   geom_density(fill = "blue", alpha = 0.5) + 
   labs(title = "Density Plot for guests_included",
        x = "guests_included",
@@ -115,7 +115,7 @@ ggplot(airbnb, aes(x = guests_included)) +
 
 
 extra_people_data <- airbnb$extra_people
-ggplot(airbnb, aes(x = extra_people)) +
+ggplot(airbnb, aes(x = extra_people_data)) +
   geom_density(fill = "blue", alpha = 0.5) + 
   labs(title = "Density Plot for extra_people",
        x = "extra_people",
@@ -126,7 +126,7 @@ ggplot(airbnb, aes(x = extra_people)) +
 
 
 minimum_nights_data <- airbnb$minimum_nights
-ggplot(airbnb, aes(x = minimum_nights)) +
+ggplot(airbnb, aes(x = minimum_nights_data)) +
   geom_density(fill = "blue", alpha = 0.5) + 
   labs(title = "Density Plot for minimum_nights",
        x = "minimum_nights",
@@ -139,7 +139,7 @@ ggplot(airbnb, aes(x = minimum_nights)) +
 
 
 reviews_per_month_data <- airbnb$reviews_per_month
-ggplot(airbnb, aes(x = reviews_per_month)) +
+ggplot(airbnb, aes(x = reviews_per_month_data)) +
   geom_density(fill = "blue", alpha = 0.5) + 
   labs(title = "Density Plot for reviews_per_month",
        x = "reviews_per_month",
@@ -148,19 +148,21 @@ ggplot(airbnb, aes(x = reviews_per_month)) +
   theme(plot.title = element_text(hjust = 0.5))
 #Conclusion: skewness of reviews_per_month is still acceptable
 
+ 
 
+ 
 
-host_response_time_data <- airbnb$host_response_time
-ggplot(airbnb, aes(x = host_response_time)) +
+review_scores_communication_data <- airbnb$review_scores_communication
+ggplot(airbnb, aes(x = review_scores_communication_data)) +
   geom_density(fill = "blue", alpha = 0.5) + 
-  labs(title = "Density Plot for host_response_time",
-       x = "host_response_time",
+  labs(title = "Density Plot for review_scores_communication",
+       x = "review_scores_communication",
        y = "Density") +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5))
-#Conclusion: skewness of host_response_time is still acceptable
+#Conclusion: skewness of review_scores_communication is still acceptable
 
- 
+
 
 
 

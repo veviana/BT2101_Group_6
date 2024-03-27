@@ -61,6 +61,10 @@ airbnb$review_scores_location[is.na(airbnb$review_scores_location)] <- median_lo
 
 
 
+#review score communication: impute with the median  
+median_location_communication <- median(airbnb$review_scores_communication, na.rm = TRUE)
+airbnb$review_scores_communication[is.na(airbnb$review_scores_communication)] <- median_location_communication
+
 
 
 
@@ -88,7 +92,7 @@ airbnb$minimum_nights <- log(airbnb$minimum_nights)
 ################## CREATING DUMMY VARIABLES ###################
 
 # host_response_time --> within an hour = fast response time = 1, else 0
-airbnb$host_response_time <- ifelse(airbnb$host_response_time %in% c("within an hour"), 1, 0)
+airbnb$host_response_time <- ifelse(airbnb$host_response_time %in% c("within an hour", "within a few hours"), 1, 0)
 
 
 # host_response_rate > 90% = quick service = 1, else 0 (90% is based on Airbnb's standard for superhost)
@@ -114,6 +118,6 @@ airbnb$neighbourhood_cleansed <- factor(airbnb$neighbourhood_cleansed)
 
 
 # Save new dataset
-#write.csv(airbnb, "cleandataset.csv", row.names = FALSE)
+write.csv(airbnb, "cleandataset.csv", row.names = FALSE)
 
  
