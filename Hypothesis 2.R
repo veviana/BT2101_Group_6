@@ -26,10 +26,6 @@ qqline(resid(model1), col = "red")
 gqtest_result <- gqtest(model1, alternative = "two.sided")
 print(gqtest_result)
 
-# Durbin Waston Test
-dwtest_result <- dwtest(model1)
-print(dwtest_result)
-
 # Adding controls 
 airbnb$neighbourhood_cleansed <- as.factor(airbnb$neighbourhood_cleansed)
 model2 <- lm(review_scores_rating ~ price + neighbourhood_cleansed + host_is_superhost + minimum_nights, data = airbnb)
