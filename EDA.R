@@ -16,6 +16,18 @@ str(airbnb)
 
 
 ############## CHECK DISTRIBUTIONS (sHAPE OF THE DISTRIBUTION) ############## 
+review_scores_rating_data <- airbnb$review_scores_rating
+ggplot(airbnb, aes(x = review_scores_rating_data)) +
+  geom_density(fill = "blue", alpha = 0.5) + 
+  labs(title = "Density Plot for Review Score Rating",
+       x = "Review Score Rating",
+       y = "Density") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+#Conclusion: skewness of review_scores_rating is still acceptable
+
+
+
 host_days_data <- airbnb$host_days
 ggplot(airbnb, aes(x = host_days_data)) +
   geom_density(fill = "blue", alpha = 0.5) + 
@@ -220,24 +232,6 @@ numeric_variables <- airbnb[sapply(airbnb, is.numeric)]
 correlation_matrix <- cor(numeric_variables, use = "pairwise.complete.obs")
 corrplot(correlation_matrix, method = "number", type = "lower", tl.col = "black", tl.srt = 45, tl.cex = 0.7, addCoef.col = "black")
  
-
-
-
-
-
-
-
-################ CALCULATE VIF TO CHECK FOR MULTICOLLINEARITY 
-data <- airbnb[c("review_scores_accuracy", "review_scores_cleanliness", "review_scores_value", 
-                 "review_scores_communication", "review_scores_checkin", "review_scores_location", 
-                 "review_scores_rating")]
-# Calculate VIF for each variable
-vif_values <- vif(lm(review_scores_rating ~ ., data = data))
-print(vif_values)
-
-
-
-
 
 
 
