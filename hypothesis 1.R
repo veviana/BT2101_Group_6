@@ -1,3 +1,6 @@
+# Read the dataset
+#airbnb <- read_csv("cleandataset.csv")
+
 library(lmtest)
 
 # Create a simple linear regression model with cancellation policy as the independent variable
@@ -18,7 +21,7 @@ lines(lowess(airbnb$review_scores_rating, airbnb$cancellation_policy), col = "re
 
 
 
-#Checks for Homoscedasticity
+# Checks for Homoscedasticity
 
 # 1) Breusch-Pagan test
 bptest(model1)
@@ -34,12 +37,38 @@ ggplot(airbnb, aes(cancellation_policy, sqrt(abs(residuals)))) +
 
 
 
+# CALCULATE VIF TO CHECK FOR MULTICOLLINEARITY (REVIEW SCORE LOCATION )
+data <- airbnb[c("review_scores_accuracy", "review_scores_cleanliness", "review_scores_value", 
+                 "review_scores_communication", "review_scores_checkin", "review_scores_location", 
+                 "review_scores_rating")]
+
+
+# Calculate VIF for each variable against review score rating
+vif_values <- vif(lm(review_scores_rating ~ ., data = data))
+print(vif_values)
+
+
+
+
 
 #Improved model by adding controls  
-improved_model <- lm(review_scores_rating ~ cancellation_policy + instant_bookable + host_is_superhost + minimum_nights + room_type, data = airbnb)
+improved_model <- lm(review_scores_rating ~ cancellation_policy + instant_bookable + 
+                       host_is_superhost + minimum_nights + review_scores_location, data = airbnb)
 
 # Print model summary
-
 summary(improved_model)
+
+
+
+
+
+library(lmtest)
+
+# Create a simple linear regression model with cancellation policy as the independent variable
+model1 <- lm(review_scores_rating ~ host_listings_count, data = airbnb)
+
+# Print model summary
+summary(model1)
+
 
 
