@@ -73,15 +73,16 @@ airbnb$review_scores_communication[is.na(airbnb$review_scores_communication)] <-
 ################## CLEAN OUTLIERS ###################
 
 # remove rows where host_listings_count is < 0 since it doesnt make sense to have negative listing count
-airbnb <- airbnb[airbnb$host_listings_count > 0, ]
+airbnb <- airbnb[airbnb$host_listings_count >= 0, ]
  
  
 
 ################## LOG TRANSFORMATION ###################
-
-# host_listings_count
-airbnb$host_listings_count <- log(airbnb$host_listings_count)
  
+# host_listings_count
+small_const <- 0.001  #data contains 2 rows of "0" value in host_listings_count 
+airbnb$host_listings_count <- log(airbnb$host_listings_count + small_const)
+airbnb <- airbnb[airbnb$host_listings_count >= 0, ]
  
 
 # price 
@@ -130,7 +131,7 @@ airbnb$neighbourhood_cleansed <- factor(airbnb$neighbourhood_cleansed)
 
 
 # Save new dataset
-#write.csv(airbnb, "cleandataset.csv", row.names = FALSE)
+write.csv(airbnb, "cleandataset.csv", row.names = FALSE)
 
 
 
