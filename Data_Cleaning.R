@@ -131,7 +131,7 @@ airbnb$neighbourhood_cleansed <- factor(airbnb$neighbourhood_cleansed)
 
 
 # Save new dataset
-write.csv(airbnb, "cleandataset.csv", row.names = FALSE)
+#write.csv(airbnb, "cleandataset.csv", row.names = FALSE)
 
 
 

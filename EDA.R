@@ -236,6 +236,16 @@ corrplot(correlation_matrix, method = "number", type = "lower", tl.col = "black"
 
 
 
+############## CHECK FOR DUPLICATES ##############  
+message("Number of duplicates:", sum(duplicated(airbnb)))
+
+
+
+
+
+
+
+
 
 
 
