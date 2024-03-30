@@ -1,7 +1,9 @@
-# Read the dataset
-#airbnb <- read_csv("cleandataset.csv")
-
+library(car)
 library(lmtest)
+
+# Read the dataset
+airbnb <- read_csv("cleandataset.csv")
+
 
 # Create a simple linear regression model with cancellation policy as the independent variable
 model1 <- lm(review_scores_rating ~ cancellation_policy, data = airbnb)
@@ -61,14 +63,6 @@ summary(improved_model)
 
 
 
-
-library(lmtest)
-
-# Create a simple linear regression model with cancellation policy as the independent variable
-model1 <- lm(review_scores_rating ~ host_listings_count, data = airbnb)
-
-# Print model summary
-summary(model1)
-
+ 
 
 
