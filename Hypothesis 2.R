@@ -1,37 +1,67 @@
-airbnb <- read.csv("/Users/xuehan/Desktop/BT2101_Group_6/cleandataset.csv")
+#airbnb <- read.csv("/Users/xuehan/Desktop/BT2101_Group_6/cleandataset.csv")
 library(lmtest)
+library(sandwich)
+
 
 # Create a simple linear regression model with price as the independent variable
-model1 <- lm(review_scores_rating ~ price, data = airbnb)
+OLSModel2 <- lm(review_scores_rating ~ price, data = airbnb)
 
 # Print model summary
-summary(model1)
+summary(OLSModel2)
 
 # Check for linearity 
 plot(airbnb$price, airbnb$review_scores_rating, main = "Price vs Review Scores", xlab = "Price", ylab = "Review Scores Rating")
-abline(model1, col = "red")
+abline(OLSModel2, col = "red")
 
-# Homoscedasticity
-plot(model1$fitted.values, resid(model1), main = "Homoscedasticity Check: Fitted vs Residuals", xlab = "Fitted values", ylab = "Residuals")
+# Check for Homoscedasticity using residual plot
+plot(OLSModel2$fitted.values, resid(OLSModel2), main = "Homoscedasticity Check: Fitted vs Residuals", xlab = "Fitted values", ylab = "Residuals")
 abline(h = 0, col = "red") 
 
-test_result <- bptest(model1)
+# Check for Homoscedasticity using BP test
+test_result <- bptest(OLSModel2)
 print(test_result)
 
 #Normality Residual 
 qqnorm(resid(model1))
 qqline(resid(model1), col = "red")
 
-# Goldfeld Quandt Test
-gqtest_result <- gqtest(model1, alternative = "two.sided")
-print(gqtest_result)
 
-# Adding controls 
+# Building multiple linear regression by adding controls 
 airbnb$neighbourhood_cleansed <- as.factor(airbnb$neighbourhood_cleansed)
-model2 <- lm(review_scores_rating ~ price + neighbourhood_cleansed + host_is_superhost + minimum_nights, data = airbnb)
+MLRModel2 <- lm(review_scores_rating ~ price + neighbourhood_cleansed + host_is_superhost + minimum_nights, data = airbnb)
 
 # Print the summary of the model
-summary(model2)
+summary(MLRModel2)
+
+# Check for Homoscedasticity using BP test
+test_result2 <- bptest(MLRModel2)
+print(test_result2)
+
+
+# Calculate robust standard errors for model coefficients
+coeftest(MLRModel2, vcov = vcovHC(MLRModel2, type = 'HC0'))
+
+# Calculate R-squared
+fitted_values <- predict(MLRModel2)
+y_mean <- mean(MLRModel2$model$review_scores_rating)
+# Calculate the total sum of squares
+SST <- sum((MLRModel2$model$review_scores_rating - y_mean)^2)
+# Calculate the residual sum of squares  
+SSR <- sum((MLRModel2$residuals)^2)
+# Calculate R-squared
+R_squared <- 1 - (SSR / SST)
+# Print R-squared
+R_squared
+
+
+
+
+
+
+
+
+
+
 
 
 
