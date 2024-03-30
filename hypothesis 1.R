@@ -6,10 +6,10 @@ airbnb <- read_csv("cleandataset.csv")
 
 
 # Create a simple linear regression model with cancellation policy as the independent variable
-model1 <- lm(review_scores_rating ~ cancellation_policy, data = airbnb)
+OLSModel1 <- lm(review_scores_rating ~ cancellation_policy, data = airbnb)
 
 # Print model summary
-summary(model1)
+summary(OLSModel1)
 
 
 ######################### TESTING GM ASSUMPTIONS #####################
@@ -53,12 +53,13 @@ print(vif_values)
 
 
 
-#Improved model by adding controls  
-improved_model <- lm(review_scores_rating ~ cancellation_policy + instant_bookable + 
+
+######################### Building multiple linear regression by adding controls #####################
+MLRModel1 <- lm(review_scores_rating ~ cancellation_policy + instant_bookable + 
                        host_is_superhost + minimum_nights + review_scores_location, data = airbnb)
 
 # Print model summary
-summary(improved_model)
+summary(MLRModel1)
 
 
 

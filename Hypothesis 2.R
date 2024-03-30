@@ -9,6 +9,9 @@ OLSModel2 <- lm(review_scores_rating ~ price, data = airbnb)
 # Print model summary
 summary(OLSModel2)
 
+
+
+######################### TESTING GM ASSUMPTIONS #####################
 # Check for linearity 
 plot(airbnb$price, airbnb$review_scores_rating, main = "Price vs Review Scores", xlab = "Price", ylab = "Review Scores Rating")
 abline(OLSModel2, col = "red")
@@ -18,15 +21,17 @@ plot(OLSModel2$fitted.values, resid(OLSModel2), main = "Homoscedasticity Check: 
 abline(h = 0, col = "red") 
 
 # Check for Homoscedasticity using BP test
-test_result <- bptest(OLSModel2)
-print(test_result)
+bptest_result <- bptest(OLSModel2)
+print(bptest_result)
 
 #Normality Residual 
 qqnorm(resid(model1))
 qqline(resid(model1), col = "red")
 
 
-# Building multiple linear regression by adding controls 
+
+
+######################### Building multiple linear regression by adding controls #####################
 airbnb$neighbourhood_cleansed <- as.factor(airbnb$neighbourhood_cleansed)
 MLRModel2 <- lm(review_scores_rating ~ price + neighbourhood_cleansed + host_is_superhost + minimum_nights, data = airbnb)
 
@@ -34,8 +39,8 @@ MLRModel2 <- lm(review_scores_rating ~ price + neighbourhood_cleansed + host_is_
 summary(MLRModel2)
 
 # Check for Homoscedasticity using BP test
-test_result2 <- bptest(MLRModel2)
-print(test_result2)
+bptest_result2 <- bptest(MLRModel2)
+print(bptest_result2)
 
 
 # Calculate robust standard errors for model coefficients
@@ -54,6 +59,12 @@ R_squared <- 1 - (SSR / SST)
 R_squared
 
 
+
+# Calculate adjusted R-squared
+n <- nrow(airbnb)
+p <- length(coefficients(MLRModel2))
+adjusted_R_squared <- 1 - ((n - 1) / (n - p)) * (1 - R_squared)
+adjusted_R_squared
 
 
 
