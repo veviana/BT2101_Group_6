@@ -51,5 +51,3 @@ n <- nrow(airbnb)
 p <- length(coefficients(MLRModel3))
 adjusted_R_squared <- 1 - ((n - 1) / (n - p)) * (1 - R_squared)
 adjusted_R_squared
-
-

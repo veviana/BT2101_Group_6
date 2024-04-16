@@ -60,10 +60,3 @@ MLRModel1 <- lm(review_scores_rating ~ cancellation_policy + instant_bookable +
 
 # Print model summary
 summary(MLRModel1)
-
-
-
-
- 
-
-
